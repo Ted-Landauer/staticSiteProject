@@ -2,8 +2,11 @@ import os
 from pathlib import Path
 from block_manipulation import markdown_to_html_node
 
+
 # Generate a webpage recursively
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
+    
+    
     
     # Get dir contents
     for filename in os.listdir(dir_path_content):
@@ -17,16 +20,16 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
             
             # copy it over
             dest_path = Path(dest_path).with_suffix(".html")
-            generate_page(from_path, template_path, dest_path)
+            generate_page(from_path, template_path, dest_path, basepath)
             
         # if we have a directory
         else:
             
             # run it again
-            generate_pages_recursive(from_path, template_path, dest_path)
+            generate_pages_recursive(from_path, template_path, dest_path, basepath)
             
 # Generate a web page based on markdown files and images
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):    
     print(f" * {from_path} {template_path} -> {dest_path}")
     
     # read the markdown file from our "from" path 
@@ -49,6 +52,8 @@ def generate_page(from_path, template_path, dest_path):
     # replace placeholders with the title and content values
     template = template.replace("{{ Title }}", title)
     template = template.replace("{{ Content }}", html)
+    template = template.replace('href="/', f'href="{basepath}')
+    template = template.replace('src="/', f'src="{basepath}')
     
     # get the destination path and if it doesn't exist, create it
     dest_dir_path = os.path.dirname(dest_path)
