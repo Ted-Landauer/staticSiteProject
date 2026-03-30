@@ -104,7 +104,7 @@ def markdown_to_html_node(markdown):
         if type == BlockType.UNORDERED_LIST:
             nodeList.append(unorList_handler(block))
         
-    return ParentNode("div", nodeList)
+    return ParentNode("div", nodeList, None)
 
 # Handle paragraph blocks
 ## splits the block on new lines
