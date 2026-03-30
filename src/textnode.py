@@ -1,6 +1,7 @@
 from enum import Enum
 from htmlnode import LeafNode
 
+# Create Enum
 class TextType(Enum):
     TEXT = "text"
     BOLD = "bold"
@@ -10,22 +11,32 @@ class TextType(Enum):
     IMAGE = "image"
     
     
+
 class TextNode:
+    
+    # TextNode Constructor
     def __init__(self, text, text_type, url = None):
         self.text = text
         self.text_type = text_type
         self.url = url
         
+    
+    # Equals function
     def __eq__(self, other):
         if self.text == other.text and self.text_type == other.text_type and self.url == other.url:
             return True
-            
+     
+    
+    # ToString Function
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type}, {self.url})"
         
-        
+
+# Convert text nodes to html nodes  
 def text_node_to_html_node(text_node):
     
+    #Check for the type of node and call the approriate function
+    #return error if no type matches
     if text_node.text_type == TextType.TEXT:
         return LeafNode(None, text_node.text)
         
@@ -47,8 +58,4 @@ def text_node_to_html_node(text_node):
     else:
         raise ValueError("no text type matches")
             
-        
-        
-        
-
         
